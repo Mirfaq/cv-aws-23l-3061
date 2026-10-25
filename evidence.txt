@@ -1,0 +1,140 @@
+== caller ==
+{
+    "UserId": "AIDAVL32GOQVD7BZAUXCN",
+    "Account": "369086592042",
+    "Arn": "arn:aws:iam::369086592042:user/mirfaq-admin"
+}
+
+== public-access ==
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+    }
+}
+
+== versioning ==
+{
+    "Status": "Enabled"
+}
+
+== objects ==
+2026-10-23 21:28:45          0 
+2026-10-23 21:50:14      49275 cv.pdf
+2026-10-23 21:50:16       3552 index.html
+2026-10-23 21:50:08       6692 style.css
+
+== ec2-policy ==
+{
+    "RoleName": "cv-ec2-role-23l-3061",
+    "PolicyName": "cv-ec2-s3-access",
+    "PolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "GetObjects",
+                "Effect": "Allow",
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::cv-23l-3061/site/*"
+            },
+            {
+                "Sid": "ListWithPrefix",
+                "Effect": "Allow",
+                "Action": "s3:ListBucket",
+                "Resource": "arn:aws:s3:::cv-23l-3061",
+                "Condition": {
+                    "StringLike": {
+                        "s3:prefix": "site/*"
+                    }
+                }
+            }
+        ]
+    }
+}
+
+== lambda-policy ==
+{
+    "AttachedPolicies": [
+        {
+            "PolicyName": "AWSLambdaBasicExecutionRole",
+            "PolicyArn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        }
+    ]
+}
+{
+    "RoleName": "cv-lambda-role-23l-3061",
+    "PolicyName": "cv-lambda-s3-access",
+    "PolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "GetObjects",
+                "Effect": "Allow",
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::cv-23l-3061/site/*"
+            }
+        ]
+    }
+}
+
+== security-group ==
+[
+    {
+        "IpProtocol": "tcp",
+        "FromPort": 80,
+        "ToPort": 80,
+        "UserIdGroupPairs": [],
+        "IpRanges": [
+            {
+                "CidrIp": "0.0.0.0/0"
+            }
+        ],
+        "Ipv6Ranges": [],
+        "PrefixListIds": []
+    },
+    {
+        "IpProtocol": "tcp",
+        "FromPort": 22,
+        "ToPort": 22,
+        "UserIdGroupPairs": [],
+        "IpRanges": [
+            {
+                "CidrIp": "39.55.148.158/32"
+            }
+        ],
+        "Ipv6Ranges": [],
+        "PrefixListIds": []
+    }
+]
+
+== instance ==
+[
+    "t3.micro",
+    "required",
+    "arn:aws:iam::369086592042:instance-profile/cv-ec2-role-23l-3061"
+]
+
+== endpoints ==
+EC2 address:
+HTTP Status: 200, Content-Type: text/html; charset=UTF-8
+Lambda address:
+HTTP Status: 200, Content-Type: text/html
+Direct S3 address:
+HTTP Status: 403, Content-Type: application/xml
+
+== lambda-logs ==
+2026-10-25T08:17:28.012000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 INIT_START Runtime Version: python:3.13.mainlinev2.v43	Runtime Version ARN: arn:aws:lambda:ap-southeast-2::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
+2026-10-25T08:17:28.515000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 START RequestId: 58c92b4b-f779-4277-86c2-6d9971c672ef Version: $LATEST
+2026-10-25T08:17:28.834000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 {"fn": "cv-func-23l-3061", "path": "/", "status": 200, "ms": 318}
+2026-10-25T08:17:28.836000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 END RequestId: 58c92b4b-f779-4277-86c2-6d9971c672ef
+2026-10-25T08:17:28.836000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 REPORT RequestId: 58c92b4b-f779-4277-86c2-6d9971c672ef	Duration: 321.25 ms	Billed Duration: 821 ms	Memory Size: 128 MB	Max Memory Used: 96 MB	Init Duration: 499.24 ms
+2026-10-25T08:18:01.414000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 START RequestId: cef789da-8c90-4f59-b5d2-a246116fca26 Version: $LATEST
+2026-10-25T08:18:01.621000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 {"fn": "cv-func-23l-3061", "path": "/", "status": 200, "ms": 206}
+2026-10-25T08:18:01.635000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 END RequestId: cef789da-8c90-4f59-b5d2-a246116fca26
+2026-10-25T08:18:01.635000+00:00 2026/10/25/[$LATEST]34f6cbbf576e495c949a743fa7b7b410 REPORT RequestId: cef789da-8c90-4f59-b5d2-a246116fca26	Duration: 220.35 ms	Billed Duration: 221 ms	Memory Size: 128 MB	Max Memory Used: 96 MB
+
+== log-retention ==
+7
+
